@@ -53,26 +53,30 @@ jobs:
         mkdir build-android-29 && cd build-android-29
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
         cmake --build . -j 2
-    - name: SSH connection to Actions
-      uses: csexton/debugger-action@master
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+          # Artifact name
+        name: "latest" # optional, default is artifact
+          # A file, directory or wildcard pattern that describes what to upload
+        path: "build-android-29/benchmark"
 
-  android-aarch64-gpu-ndk-r16b:
-    runs-on: ubuntu-latest
-    steps:
-    - name: cancel-previous-runs
-      uses: styfle/cancel-workflow-action@0.9.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-    - name: ndk-r16b
-      run: |
-        wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip -O $GITHUB_WORKSPACE/android-ndk-r16b-linux-x86_64.zip
-        cd $GITHUB_WORKSPACE && unzip -q android-ndk-r16b-linux-x86_64.zip
-    - name: configure
-      run: mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/android-ndk-r16b/build/cmake/android.toolchain.cmake -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
-    - name: build
-      run: cmake --build build -j 2
-    - name: SSH connection to Actions
-      uses: csexton/debugger-action@master 
+#   android-aarch64-gpu-ndk-r16b:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: cancel-previous-runs
+#       uses: styfle/cancel-workflow-action@0.9.0
+#       with:
+#         access_token: ${{ secrets.GITHUB_TOKEN }}
+#     - uses: actions/checkout@v2
+#       with:
+#         submodules: true
+#     - name: ndk-r16b
+#       run: |
+#         wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip -O $GITHUB_WORKSPACE/android-ndk-r16b-linux-x86_64.zip
+#         cd $GITHUB_WORKSPACE && unzip -q android-ndk-r16b-linux-x86_64.zip
+#     - name: configure
+#       run: mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/android-ndk-r16b/build/cmake/android.toolchain.cmake -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+#     - name: build
+#       run: cmake --build build -j 2
+
