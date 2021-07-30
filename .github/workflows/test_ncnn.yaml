@@ -2,11 +2,11 @@ name: android-armv8-gpu1
 
 on:
   workflow_dispatch:
-  inputs:
-    sha:  # id of input
-      description: "Target SHA"
-      required: true
-      default: '31985b18f89dad95e50b522bbd8b8d159fb2a19e'
+    inputs:
+      sha:  # id of input
+        description: "Target SHA"
+        required: true
+        default: '31985b18f89dad95e50b522bbd8b8d159fb2a19e'
 
   pull_request:
     branches:
