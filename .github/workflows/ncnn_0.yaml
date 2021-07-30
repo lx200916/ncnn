@@ -41,7 +41,7 @@ jobs:
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -50,7 +50,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -60,7 +60,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -70,7 +70,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON   ..
 
         cmake --build . -j 2
 
@@ -139,7 +139,7 @@ jobs:
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -148,7 +148,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -158,7 +158,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -168,7 +168,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -237,7 +237,7 @@ jobs:
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -246,7 +246,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -256,7 +256,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -266,7 +266,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -335,7 +335,7 @@ jobs:
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -344,7 +344,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -354,7 +354,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -364,7 +364,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -433,7 +433,7 @@ jobs:
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
@@ -442,7 +442,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -452,7 +452,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -462,7 +462,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON    -DNCNN_BENCHMARK=ON  ..
 
         cmake --build . -j 2
 
