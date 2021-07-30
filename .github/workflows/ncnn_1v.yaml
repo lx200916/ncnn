@@ -1,4 +1,4 @@
-name: android-armv8-gpu2
+name: android-armv8-gpu2v
 on:
   pull_request:
     branches:
