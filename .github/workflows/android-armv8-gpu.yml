@@ -20,7 +20,8 @@ on:
     - 'src/layer/*'
     - 'src/layer/arm/**'
     - 'src/layer/vulkan/**'
-  watch: [started]
+  watch:
+    types: [started]
 jobs:
   android-aarch64-gpu:
     runs-on: ubuntu-latest
