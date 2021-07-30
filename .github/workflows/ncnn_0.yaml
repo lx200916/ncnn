@@ -1,5 +1,7 @@
 name: android-armv8-gpu1
 on:
+  workflow_dispatch:
+
   pull_request:
     branches:
     - master
