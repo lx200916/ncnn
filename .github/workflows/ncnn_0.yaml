@@ -1,0 +1,514 @@
+name: android-armv8-gpu1
+true:
+  pull_request:
+    branches:
+    - master
+    paths:
+    - .github/workflows/android-armv8-gpu.yml
+    - CMakeLists.txt
+    - cmake/**
+    - src/*
+    - src/layer/*
+    - src/layer/arm/**
+    - src/layer/vulkan/**
+  push:
+    branches:
+    - master
+    paths:
+    - .github/workflows/android-armv8-gpu.yml
+    - CMakeLists.txt
+    - cmake/**
+    - src/*
+    - src/layer/*
+    - src/layer/arm/**
+    - src/layer/vulkan/**
+  watch:
+    types:
+    - started
+jobs:
+  android-aarch64-gpu0:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      matrix:
+        include:
+        - sha: b7db8be4f6aac1decabdc40a57c7641b4a2ecc6e
+          time: '2017-06-30'
+        - sha: 402cbeecc5f6a0323db8d112bbce6202ea33766c
+          time: '2017-07-24'
+        - sha: f3e2f8fd9e457f1a44714fefb02c9892569853ee
+          time: '2017-07-29'
+        - sha: 3c238737049deb6bb27cec0ef8df655437161807
+          time: '2017-08-07'
+        - sha: 0b508266f676b6bb729eaa96831360defe79c7d6
+          time: '2017-08-09'
+        - sha: 934f48cb5ecd17d2fdf2509d1c6f43715ad1988b
+          time: '2017-08-21'
+        - sha: 45b2e7cd571ee13e8ed9af17d3c36943600e16b3
+          time: '2017-08-25'
+        - sha: a26914d6c817033e7875e96c80ebba49eef48e65
+          time: '2017-09-04'
+        - sha: da8ff91cb06cbeb0b8fee104182d2767a3b3bf85
+          time: '2017-09-06'
+        - sha: f8dc80f756108c24ccb597181de7232cee4d310f
+          time: '2017-09-18'
+        - sha: 8a55ce42b2fc9a469a8e4c3db309b82f20e9c854
+          time: '2017-09-20'
+        - sha: 66f4d05c838162ec6099dfbf5186cc51c291f411
+          time: '2017-10-01'
+        - sha: ecc5fe345ac69207ddd73e01a322c07f446ef3c2
+          time: '2017-10-08'
+        - sha: 908a8f48d29027e52b5736a8200ad6020846af8e
+          time: '2017-10-16'
+        - sha: eea3ca577a8511662875c79e1090094aa2310d89
+          time: '2017-10-23'
+        - sha: ef624a0850d81e177565d827edb1915d15d7fb9c
+          time: '2017-10-30'
+        - sha: a3be17eb7e4d789b6c05c375b2c7aec8253c390a
+          time: '2017-11-03'
+        - sha: 790829bc62f487cccc36d7040eeb0ed55fc831d7
+          time: '2017-11-12'
+        - sha: e8248ecab0409379656ea70a734a2b6d425bdbba
+          time: '2017-11-16'
+        - sha: 32cd5f2a5c50e55a9ef1709b0d527a202fac64b2
+          time: '2017-11-23'
+  android-aarch64-gpu1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      matrix:
+        include:
+        - sha: c77ca16468b39accb237e870ecd356a4442327fb
+          time: '2017-12-02'
+        - sha: 23a3254a7b415c3f893483a5885fc70f4e312601
+          time: '2017-12-11'
+        - sha: 0f5241802359fe709d229b7f5ae5f169fe26be0c
+          time: '2017-12-16'
+        - sha: 1f5c646ee0023f6ab96a908d9e02c08e94f47885
+          time: '2017-12-24'
+        - sha: a181d25098b07df0bb8e7b163ad938ed45dd650b
+          time: '2017-12-30'
+        - sha: 67b80183dd4c4f2082e239fd589db3841096c9ab
+          time: '2018-01-08'
+        - sha: 5e358b831dd8f32dfb4204a281ee7327870c30e3
+          time: '2018-01-15'
+        - sha: 31985b18f89dad95e50b522bbd8b8d159fb2a19e
+          time: '2018-01-20'
+        - sha: f133729c78ecc25ebdf3e93ed89cafb0b7e926a2
+          time: '2018-01-28'
+        - sha: db5e805effe6df39462ade72c2c438331a25a0c8
+          time: '2018-02-05'
+        - sha: 5ff6a1808a91c0770b813c60fe5846225011cba1
+          time: '2018-02-10'
+        - sha: 405faed2abb1e6e6c9fa1fdb43e4c1cbb715da7c
+          time: '2018-02-16'
+        - sha: a335ae840fbf89796155435ba8499e722917d5a0
+          time: '2018-02-23'
+        - sha: 9c05e48e871b099bca26ceed454ec39018153b63
+          time: '2018-03-04'
+        - sha: 28154dcb29d01606de71c6ae3bbdee074020287a
+          time: '2018-03-11'
+        - sha: 6ea09ebf2c4cc05460a99dea53a6260f5843c19a
+          time: '2018-03-19'
+        - sha: d7e31987fadc54aa4244f7055d54402c99daabdf
+          time: '2018-03-26'
+        - sha: 3a5d7cfcce61e9ba40e4271442204a062900c16b
+          time: '2018-04-01'
+        - sha: 67732a83d8741f601c0cc932b732276c66231b84
+          time: '2018-04-09'
+        - sha: bc905288a7b01393222d14b0f657e458d951d195
+          time: '2018-04-16'
+  android-aarch64-gpu2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      matrix:
+        include:
+        - sha: d0bcda70ca50bd8b7dcde0d3b478c3aa1d6edc04
+          time: '2018-04-21'
+        - sha: 356d018771b389b1efb6d810e1b8db5c803b6ad9
+          time: '2018-04-27'
+        - sha: 4905dc81d8b38bc67061597842c71343a5874191
+          time: '2018-05-04'
+        - sha: 643f2a671bab289b1d73ad1ab58278379f0ecd7d
+          time: '2018-05-14'
+        - sha: 307a77f04be29875f40d337cfff6df747df09de6
+          time: '2018-05-18'
+        - sha: 5dc35f28602e1af9e629458ef08c567d13c0fc1a
+          time: '2018-06-01'
+        - sha: dc2a689d10b7dba25db1491493f899fecead504c
+          time: '2018-06-08'
+        - sha: 72bb261e7a1815ef6c1eb0985497fefd66e899ae
+          time: '2018-06-16'
+        - sha: 511baa67188d0c56f74146aec994124789524815
+          time: '2018-06-25'
+        - sha: 0bbdbf4ff8b8816587846111279bd7976655253b
+          time: '2018-07-02'
+        - sha: 20c0794b365cc70e3540bba6ee94b5a5600ecb8d
+          time: '2018-07-09'
+        - sha: ae467fee25f46e375c091ca60f6364e62e98ea1d
+          time: '2018-07-15'
+        - sha: b6b90c888f3b2378eeabbc3f8d6ce48f9f50ae18
+          time: '2018-07-17'
+        - sha: 6eb6abfd4a654cdce5f8fe48a36bb163912eb1af
+          time: '2018-07-29'
+        - sha: cebded134aacb501dfb9384c2e8340ed77ba4f6b
+          time: '2018-08-05'
+        - sha: 72411b7a6c742956984962d3a2054529042f9459
+          time: '2018-08-12'
+        - sha: f78e8fd8e4dbae99708cba2933fa6e8d578c32d9
+          time: '2018-08-16'
+        - sha: 23de61fd070307a770d45ead936f276fbea4bcdc
+          time: '2018-08-24'
+        - sha: ef36d79b7eaa114797d968f262e410197f6ac3da
+          time: '2018-08-30'
+        - sha: a862a3432d62585bf185ecdfccbb7167b0d09f0c
+          time: '2018-09-15'
+  android-aarch64-gpu3:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      matrix:
+        include:
+        - sha: 3489d02037506cfd00b5ac8d1ad6a53e890033ab
+          time: '2018-09-19'
+        - sha: 8eeea9ef01833af2128213b0b82bf510345271e6
+          time: '2018-09-30'
+        - sha: c171db255fb8895eb64664bd77886173b51de6b3
+          time: '2018-10-15'
+        - sha: 11113c7aaaeb8957f262c2e673bdca5f3696aa35
+          time: '2018-10-17'
+        - sha: 971fe2f639255d04762ee26cb395e3ef64426cf0
+          time: '2018-10-27'
+        - sha: 736ed5e8350281f703ed7b21b34068f988db58b5
+          time: '2018-11-03'
+        - sha: 8fda293f91c0782bb56073c4b649252fb6ea6d1c
+          time: '2018-11-08'
+        - sha: 4837af4c25013d04658e4ea94016e4acda126128
+          time: '2018-11-19'
+        - sha: 481722648cbfddde00d826cbaf9d1f877c61ca32
+          time: '2018-11-22'
+        - sha: ed2a24c47cba93343c53589cb1db339f6db9e659
+          time: '2018-11-29'
+        - sha: 4c5d9ae425f0b47e88ddadfda5d7464fa94d5309
+          time: '2018-12-10'
+        - sha: cc873b675cc07be3f9e702db033fddca06081c49
+          time: '2018-12-17'
+        - sha: aaa0765dede968ee62f314c32c9a9b25f0275473
+          time: '2018-12-22'
+        - sha: 099189384fe3f8f97bd6054ac862007229da8f9b
+          time: '2018-12-28'
+        - sha: ac7121f54b4a0ce128df6fcdba780470c77df81f
+          time: '2019-01-04'
+        - sha: d7bd415832064669573ba2c22b5fab47a11af529
+          time: '2019-01-09'
+        - sha: ddba274b9651e4ba7c3dc3457915def97299dc06
+          time: '2019-01-18'
+        - sha: 8e5674363b63e2e19b4b24035934721ca1acc35c
+          time: '2019-01-26'
+        - sha: 9d2b345eab407f508cf6b92949fe1be54662186d
+          time: '2019-02-04'
+        - sha: cd7f120250f2760a5cfe42362018f4b38d9ca721
+          time: '2019-02-05'
+  android-aarch64-gpu4:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      matrix:
+        include:
+        - sha: 39f2c71d5bc39bd483d539920bfb6254fb9c1c83
+          time: '2019-02-18'
+        - sha: 24f423b0c6791464d32a9b566754db6399c34da6
+          time: '2019-02-23'
+        - sha: 253bef2f7b23bd4fb5653d0e0f9babffca124a18
+          time: '2019-03-03'
+        - sha: dd83284ceee618796dc362bbf89409e06bb0b648
+          time: '2019-03-10'
+        - sha: d263cd507c79ef525662b1d0c372e599dfdf4d69
+          time: '2019-03-15'
+        - sha: f90a9898e2ea2ac35543c222e0d87cacbd556f0c
+          time: '2019-03-25'
+        - sha: 1554438515dc11d507dc38dfcf6b3b23abc12a85
+          time: '2019-03-29'
+        - sha: 9643916281dcd35cf2ffc2b7e44cf61fe6561d7b
+          time: '2019-04-07'
+        - sha: f92dcca3b36248933050ae1a7d54d6ed0c7c94b2
+          time: '2019-04-14'
+        - sha: 1dea9fe353d9a38b2a6e6a48a056a0f1ef45ed99
+          time: '2019-04-22'
+        - sha: 60e826181213487de78b32eac14ceacb088627b9
+          time: '2019-04-29'
+        - sha: d46c5989e1768caf59ad4b1ef2ba620573aa2685
+          time: '2019-05-03'
+        - sha: 07260527fc62af13d8f2f117fa6e95fb1837eb3d
+          time: '2019-05-12'
+        - sha: a6aab42f95041837f859bf9417fc734b62a30b24
+          time: '2019-05-15'
+        - sha: 25b9736f82b3c0662d3b5025692c7a1b844319b0
+          time: '2019-05-26'
+        - sha: 7f7bbf12e547897ac63f9f0e328c1c88edf2911f
+          time: '2019-06-03'
+        - sha: 21f79b854680011bfdf419faf1d106efab1fcc49
+          time: '2019-06-09'
+        - sha: ae1b69ec535bb920a25f93b7a353fb912ba13282
+          time: '2019-06-15'
+        - sha: b25f76833a3d1442044d5ef39e19e85fb7d472ba
+          time: '2019-06-24'
+        - sha: bcfe9f453f073a020a0b80d5e6c9d65493273187
+          time: '2019-06-26'
+
