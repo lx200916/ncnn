@@ -4,7 +4,7 @@ on:
     branches:
     - master
     paths:
-    - .github/workflows/android-armv8-gpu.yml
+    - .github/workflows/ncnn_2.yml
     - CMakeLists.txt
     - cmake/**
     - src/*
@@ -81,6 +81,8 @@ jobs:
         name: ${{ matrix.time }}
         path: build-android-29/benchmark
     strategy:
+      fail-fast: false
+
       matrix:
         include:
         - sha: ccc597740f8095145cac611d0e6763923f25c006
