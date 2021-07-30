@@ -74,4 +74,4 @@ jobs:
     - name: build
       run: cmake --build build -j 2
     - name: SSH connection to Actions
-      uses: csexton/debugger-action@master
+      uses: csexton/debugger-action@master 
