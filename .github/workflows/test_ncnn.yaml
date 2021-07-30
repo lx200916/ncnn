@@ -1,0 +1,90 @@
+name: android-armv8-gpu1
+on:
+  pull_request:
+    branches:
+    - master
+    paths:
+    - .github/workflows/android-armv8-gpu.yml
+    - CMakeLists.txt
+    - cmake/**
+    - src/*
+    - src/layer/*
+    - src/layer/arm/**
+    - src/layer/vulkan/**
+  push:
+    branches:
+    - master
+    paths:
+    - .github/workflows/ncnn_0.yml
+    - CMakeLists.txt
+    - cmake/**
+    - src/*
+    - src/layer/*
+    - src/layer/arm/**
+    - src/layer/vulkan/**
+  watch:
+    types:
+    - started
+jobs:
+  android-aarch64-gpu0:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: SSH connection to Actions
+      uses: csexton/debugger-action@master
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON  -DNCNN_BENCHMARK=ON-DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29   -DNCNN_VULKAN=OFF -DNCNN_BENCHMARK=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - sha: b7db8be4f6aac1decabdc40a57c7641b4a2ecc6e
+          time: '2017-06-30'
