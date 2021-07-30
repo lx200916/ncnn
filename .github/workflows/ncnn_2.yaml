@@ -1,5 +1,5 @@
 name: android-armv8-gpu3
-true:
+on:
   pull_request:
     branches:
     - master
