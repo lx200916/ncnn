@@ -1,6 +1,12 @@
 name: android-armv8-gpu1
+
 on:
   workflow_dispatch:
+    inputs:
+      sha:  # id of input
+        description: "Target SHA"
+        required: true
+        default: '31985b18f89dad95e50b522bbd8b8d159fb2a19e'
 
   pull_request:
     branches:
@@ -37,7 +43,7 @@ jobs:
         access_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v2
       with:
-        ref: ${{ matrix.sha }}
+        ref: ${{ github.event.inputs.sha }}
         submodules: true
     - name: SSH connection to Actions
       uses: csexton/debugger-action@master
@@ -82,11 +88,6 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
-        name: ${{ matrix.time }}
+        name: test
         path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - sha: b7db8be4f6aac1decabdc40a57c7641b4a2ecc6e
-          time: '2017-06-30'
+
