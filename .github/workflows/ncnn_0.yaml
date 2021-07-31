@@ -40,7 +40,7 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: openBenchmark
-      run: "sed -i ''  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
+      run: "sed -i  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
     - name: build
       run: 'mkdir build && cd build
 
