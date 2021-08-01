@@ -77,7 +77,7 @@ jobs:
 
         '
     - name: Copy Network Param
-      run: 'cp benchmark/*.param /build-android-29/benchmark/'
+      run: 'cp benchmark/*.param build-android-29/benchmark/'
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -177,7 +177,7 @@ jobs:
 
         '
     - name: Copy Network Param
-      run: 'cp benchmark/*.param /build-android-29/benchmark/'
+      run: 'cp benchmark/*.param build-android-29/benchmark/'
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -277,7 +277,7 @@ jobs:
 
         '
     - name: Copy Network Param
-      run: 'cp benchmark/*.param /build-android-29/benchmark/'
+      run: 'cp benchmark/*.param build-android-29/benchmark/'
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -377,7 +377,7 @@ jobs:
 
         '
     - name: Copy Network Param
-      run: 'cp benchmark/*.param /build-android-29/benchmark/'
+      run: 'cp benchmark/*.param build-android-29/benchmark/'
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -478,7 +478,7 @@ jobs:
         '
       
     - name: Copy Network Param
-      run: 'cp benchmark/*.param /build-android-29/benchmark/'
+      run: 'cp benchmark/*.param build-android-29/benchmark/'
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
