@@ -43,6 +43,13 @@ jobs:
       run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
 
        sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
+
       "
 
     - name: build
@@ -149,6 +156,13 @@ jobs:
       run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
 
        sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
+
       "
 
     - name: build
@@ -255,6 +269,13 @@ jobs:
       run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
 
        sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
+
       "
 
     - name: build
@@ -361,6 +382,13 @@ jobs:
       run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
 
        sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
+
       "
 
     - name: build
@@ -467,6 +495,13 @@ jobs:
       run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
 
        sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
+
       "
 
     - name: build
