@@ -41,6 +41,12 @@ jobs:
         submodules: true
     - name: openBenchmark
       run: "sed -i  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
+    - name: sed Benchmark
+      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+      "
+
     - name: build
       run: 'mkdir build && cd build
 
@@ -143,6 +149,12 @@ jobs:
         submodules: true
     - name: openBenchmark
       run: "sed -i  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
+    - name: sed Benchmark
+      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+      "
+
     - name: build
       run: 'mkdir build && cd build
 
@@ -245,6 +257,12 @@ jobs:
         submodules: true
     - name: openBenchmark
       run: "sed -i  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
+    - name: sed Benchmark
+      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+      "
+
     - name: build
       run: 'mkdir build && cd build
 
@@ -347,6 +365,12 @@ jobs:
         submodules: true
     - name: openBenchmark
       run: "sed -i  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
+    - name: sed Benchmark
+      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+      "
+
     - name: build
       run: 'mkdir build && cd build
 
@@ -449,6 +473,12 @@ jobs:
         submodules: true
     - name: openBenchmark
       run: "sed -i  -e 's/# add_subdirectory(benchmark)/add_subdirectory(benchmark)/' CMakeLists.txt"
+    - name: sed Benchmark
+      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+      "
+
     - name: build
       run: 'mkdir build && cd build
 

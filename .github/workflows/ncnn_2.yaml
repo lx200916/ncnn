@@ -39,6 +39,12 @@ jobs:
       with:
         ref: ${{ matrix.sha }}
         submodules: true
+    - name: sed Benchmark
+      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+
+       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+      "
+
     - name: build
       run: 'mkdir build && cd build
 
