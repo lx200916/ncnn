@@ -11,9 +11,16 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: 'sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+      run: ' sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?''
+        benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp '
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        '
     - name: build
       run: 'mkdir build && cd build
 
@@ -115,9 +122,16 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: 'sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+      run: ' sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?''
+        benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp '
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        '
     - name: build
       run: 'mkdir build && cd build
 
@@ -219,9 +233,16 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: 'sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+      run: ' sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?''
+        benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp '
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        '
     - name: build
       run: 'mkdir build && cd build
 
@@ -291,5 +312,5 @@ jobs:
           time: 2020-07-27T10_39_39Z
 name: android-armv8-gpu
 on:
-  workflow_dispatch:
+    workflow_dispatch:
 
