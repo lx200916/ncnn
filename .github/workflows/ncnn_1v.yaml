@@ -1,31 +1,3 @@
-name: android-armv8-gpu2v
-on:
-  workflow_dispatch:
-  pull_request:
-    branches:
-    - master
-    paths:
-    - .github/workflows/ncnn_1v.yml
-    - CMakeLists.txt
-    - cmake/**
-    - src/*
-    - src/layer/*
-    - src/layer/arm/**
-    - src/layer/vulkan/**
-  push:
-    branches:
-    - master
-    paths:
-    - .github/workflows/android-armv8-gpu.yml
-    - CMakeLists.txt
-    - cmake/**
-    - src/*
-    - src/layer/*
-    - src/layer/arm/**
-    - src/layer/vulkan/**
-  watch:
-    types:
-    - started
 jobs:
   android-aarch64-gpu1:
     runs-on: ubuntu-latest
@@ -39,23 +11,27 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
+      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
 
-       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
 
-       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
 
-       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
 
-      "
+        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        benchmark/benchncnn.cpp
 
+        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+
+        '
     - name: build
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -64,7 +40,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -74,7 +50,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -84,13 +60,13 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29  -DNCNN_VULKAN=ON   ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
         '
     - name: Copy Network Param
-      run: 'cp benchmark/*.param build-android-29/benchmark/'
+      run: cp benchmark/*.param build-android-29/benchmark/
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -100,143 +76,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - sha: 5ce6ae90beaf308576ea59cb961608e9b4fc9b27
-          time: '2019-07-04'
-        - sha: fb9309e46021f3923e9d8a8be632795b710f256c
-          time: '2019-07-15'
-        - sha: ea9c11492238a16d7f46bcdd2627b8e884063209
-          time: '2019-07-21'
-        - sha: 77c1f361b7c90fc87ce2c54f78b186e26e78068b
-          time: '2019-07-26'
-        - sha: 163fb92537a09af9430109f5c6bf3d2a98619463
-          time: '2019-08-05'
-        - sha: 1cce18bddeb10e4425e76123ef3a8c772efb800b
-          time: '2019-08-09'
-        - sha: 1f6919fd40de3bf151e45554053a9b0cc07019ea
-          time: '2019-08-18'
-        - sha: 35990bb5d5358d06891b72b6774003cbd5c1a361
-          time: '2019-08-24'
-        - sha: 46e7ac76abad0b3d8649b97c37a4d0e0dc565f9a
-          time: '2019-09-01'
-        - sha: 91ef4eea4f9e0f90abf5630d4325031271d005ff
-          time: '2019-09-08'
-        - sha: 974411e358eba1c771e5af654dca31a2482a0f6a
-          time: '2019-09-16'
-        - sha: 50f69f1755400445a832b83c3d6d69a5d7175608
-          time: '2019-09-19'
-        - sha: 22a3ade6ce402ea47ef40931d1c74116c6bd8f95
-          time: '2019-09-29'
-        - sha: afd1f08194d2a607fd264644961bac26848e0f94
-          time: '2019-10-06'
-        - sha: 7173b6e38e81ed35248480a616617e074fbaf2b6
-          time: '2019-10-14'
-        - sha: e63e2449fd7ad5706d9a8163c500db311b6dc2a1
-          time: '2019-10-21'
-        - sha: b2758bd9a06f820ad574917d8b5051e187910240
-          time: '2019-10-28'
-        - sha: e73b06bbb81d487e79b849e9dbbffaeda9aaba71
-          time: '2019-11-04'
-        - sha: a170ef1acffb488612f5474dda23a8b04a96120d
-          time: '2019-11-08'
-        - sha: d8b0f28dda0aa7fb56103552592040bc60db5b79
-          time: '2019-11-15'
-  android-aarch64-gpu2:
-    runs-on: ubuntu-latest
-    steps:
-    - name: cancel-previous-runs
-      uses: styfle/cancel-workflow-action@0.9.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ matrix.sha }}
-        submodules: true
-    - name: sed Benchmark
-      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
-
-      "
-
-    - name: build
-      run: 'mkdir build && cd build
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-shared
-      run: 'mkdir build-shared && cd build-shared
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_SHARED_LIB=ON
-        -DNCNN_ENABLE_LTO=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-termux
-      run: 'mkdir build-termux && cd build-termux
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_PLATFORM_API=OFF
-        ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-android-29
-      run: 'mkdir build-android-29 && cd build-android-29
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: Copy Network Param
-      run: 'cp benchmark/*.param build-android-29/benchmark/'
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ matrix.time }}
-        path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - sha: 742cc8c571fcfec937c8f49f87e8faa899abfd4f
-          time: '2019-11-23'
-        - sha: 7e68c5e1e96fbb8f5c36640bdf49fd0a6050039e
-          time: '2019-11-30'
-        - sha: b3ecf16169976ff62ce730377f8cde584d5a4c9a
-          time: '2019-12-08'
-        - sha: a477aee0ba9dfb170ebe985affe9151e2656d8df
-          time: '2019-12-16'
-        - sha: a50bcf10aa6b1e367222021534251d0e0acf607a
-          time: '2019-12-20'
-        - sha: 07170542c97b6ef616a53ce945eef3fada92d560
-          time: '2019-12-27'
-        - sha: 6f2ef1932d717c45396f13a182dc347db74e9d1e
-          time: '2020-01-04'
-        - sha: 591b13ed05e80fd4fbff46f38a0c14732586563f
-          time: '2020-01-13'
-        - sha: 4a1ff55d9e391d6eb479ed1958f22240169a7017
-          time: '2020-01-20'
-        - sha: 2b624686e6035fdd185563d41cb123fbd9174c7e
-          time: '2020-01-26'
-        - sha: e2bd4eae6e1a0aeecd3c76be92f9cd0785401efc
-          time: '2020-01-31'
-        - sha: 01853010eae3fbd367a51eeed0f5540958cb8fe7
-          time: '2020-02-07'
         - sha: 0f7e7bca0223bfa3600c08c808d2ded0a1cb3b04
           time: '2020-02-17'
         - sha: 2606d2a2c99c37d2c46768aaacb11030d306907e
@@ -253,79 +92,6 @@ jobs:
           time: '2020-03-30'
         - sha: 85d5e5d3e45cb41822d55b3ee7055214ea63e879
           time: '2020-04-05'
-  android-aarch64-gpu3:
-    runs-on: ubuntu-latest
-    steps:
-    - name: cancel-previous-runs
-      uses: styfle/cancel-workflow-action@0.9.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ matrix.sha }}
-        submodules: true
-    - name: sed Benchmark
-      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
-
-      "
-
-    - name: build
-      run: 'mkdir build && cd build
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-shared
-      run: 'mkdir build-shared && cd build-shared
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_SHARED_LIB=ON
-        -DNCNN_ENABLE_LTO=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-termux
-      run: 'mkdir build-termux && cd build-termux
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_PLATFORM_API=OFF
-        ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-android-29
-      run: 'mkdir build-android-29 && cd build-android-29
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: Copy Network Param
-      run: 'cp benchmark/*.param build-android-29/benchmark/'
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ matrix.time }}
-        path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
         - sha: 956ab49d02d95a1343ed587b0d1b10529d281a10
           time: '2020-04-13'
         - sha: e49a9ec7366eaac2a19c872bbd3a57b15fa35ec6
@@ -350,6 +116,83 @@ jobs:
           time: '2020-06-22'
         - sha: ebce2c3742258388a3a56d18520a9214b6592c4e
           time: '2020-06-29'
+  android-aarch64-gpu2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: sed Benchmark
+      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+
+        '
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Copy Network Param
+      run: cp benchmark/*.param build-android-29/benchmark/
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
         - sha: 8d984f105b1b8f816654ffa7719e96fbd5885971
           time: '2020-07-05'
         - sha: dd97ad36c1b75b4a871656be64bba44e623476ec
@@ -366,79 +209,6 @@ jobs:
           time: '2020-08-14'
         - sha: 1cb55454ebb93e9a6e43f5ce6978ccf721bff2d7
           time: '2020-08-23'
-  android-aarch64-gpu4:
-    runs-on: ubuntu-latest
-    steps:
-    - name: cancel-previous-runs
-      uses: styfle/cancel-workflow-action@0.9.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ matrix.sha }}
-        submodules: true
-    - name: sed Benchmark
-      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
-
-      "
-
-    - name: build
-      run: 'mkdir build && cd build
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-shared
-      run: 'mkdir build-shared && cd build-shared
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_SHARED_LIB=ON
-        -DNCNN_ENABLE_LTO=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-termux
-      run: 'mkdir build-termux && cd build-termux
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_PLATFORM_API=OFF
-        ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-android-29
-      run: 'mkdir build-android-29 && cd build-android-29
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: Copy Network Param
-      run: 'cp benchmark/*.param build-android-29/benchmark/'
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ matrix.time }}
-        path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
         - sha: 9f5b6604833f1edc85e2bfa1619685864f9a2679
           time: '2020-08-29'
         - sha: 8ec73408aecbec6cc28bb52ad87bd7c60a11a690
@@ -463,6 +233,83 @@ jobs:
           time: '2020-11-09'
         - sha: b441f738bd23b2d0331f797775f2d8a7a3219f93
           time: '2020-11-16'
+  android-aarch64-gpu3:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: sed Benchmark
+      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+
+        '
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Copy Network Param
+      run: cp benchmark/*.param build-android-29/benchmark/
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
         - sha: 1184404fbf78c55b27358cf3184906883ca2444f
           time: '2020-11-22'
         - sha: 14ba69803452b7626a473e668c699c034b5081b0
@@ -479,80 +326,6 @@ jobs:
           time: '2021-01-03'
         - sha: fca04980f3a58e14cfb61cf398c932e84a2fc0fd
           time: '2021-01-11'
-  android-aarch64-gpu5:
-    runs-on: ubuntu-latest
-    steps:
-    - name: cancel-previous-runs
-      uses: styfle/cancel-workflow-action@0.9.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ matrix.sha }}
-        submodules: true
-    - name: sed Benchmark
-      run: "sed -i -e 's?    benchmark(?//    benchmark(?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"mobilenet\"?    benchmark(\"mobilenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"googlenet\"?    benchmark(\"googlenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"shufflenet\"?    benchmark(\"shufflenet\"?' benchmark/benchncnn.cpp
-
-       sed -i -e 's?//    benchmark(\"squeezenet\"?    benchmark(\"squeezenet\"?' benchmark/benchncnn.cpp
-
-      "
-
-    - name: build
-      run: 'mkdir build && cd build
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-shared
-      run: 'mkdir build-shared && cd build-shared
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_SHARED_LIB=ON
-        -DNCNN_ENABLE_LTO=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-termux
-      run: 'mkdir build-termux && cd build-termux
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24  -DNCNN_VULKAN=ON   -DNCNN_PLATFORM_API=OFF
-        ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-android-29
-      run: 'mkdir build-android-29 && cd build-android-29
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29  -DNCNN_VULKAN=ON   ..
-
-        cmake --build . -j 2
-
-        '
-      
-    - name: Copy Network Param
-      run: 'cp benchmark/*.param build-android-29/benchmark/'
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ matrix.time }}
-        path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
         - sha: af7d8184aa260a385328166a8e0c5c720fd1b9bb
           time: '2021-01-17'
         - sha: 73fb3b583f11caa6a3a58d2b941d8bc1f3b59a20
@@ -577,6 +350,83 @@ jobs:
           time: '2021-03-29'
         - sha: cc8e7a13faa64e108d09eada1e58b0c6238d2e3c
           time: '2021-04-02'
+  android-aarch64-gpu4:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: sed Benchmark
+      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+
+        '
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Copy Network Param
+      run: cp benchmark/*.param build-android-29/benchmark/
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
         - sha: bd994ddba3cd3dddc6ba8237c886d68cc4715159
           time: '2021-04-12'
         - sha: 478b8f072e18a3a5a94e03343fe15143d6127518
@@ -593,4 +443,113 @@ jobs:
           time: '2021-05-24'
         - sha: 71bc617a05f073d8b623dcc95e88eb5e1eb16aa5
           time: '2021-05-29'
+        - sha: ccc597740f8095145cac611d0e6763923f25c006
+          time: '2021-06-03'
+        - sha: 08f285772e8729836197b44db741e9f61182d6d5
+          time: '2021-06-12'
+        - sha: c1ce8ea84d55b9e223025bb5e3b8a9d978f1205d
+          time: '2021-06-19'
+        - sha: 64092d0c7cd47aa384235677c86a048e513d095e
+          time: '2021-06-27'
+        - sha: 90b38ba1454af0ecc46f94aeef7d6886cf97bf7a
+          time: '2021-07-04'
+        - sha: 5049aaeabd3e36ad4131ad46da3ecd12c973eea6
+          time: '2021-07-11'
+        - sha: dba7348f1753b8e96cd8805aaaebaa2881adc11a
+          time: '2021-07-18'
+        - sha: 618f0f70ac273e0c9ad52d28ead4a5fa4f905909
+          time: '2021-07-26'
+        - sha: ba8e81453932ed946fcbad1f445b36b3f1bf47bd
+          time: '2021-08-02'
+        - sha: a6667ee6c48ca591fd33aa98134e8ecefba4fc19
+          time: '2021-08-06'
+        - sha: ec561736a5ca4f3853c2b48319efb2bb77b82889
+          time: '2021-08-12'
+        - sha: c44a6c7f47087222ffb0c9475fc49fdb66e6b62b
+          time: '2021-08-23'
+  android-aarch64-gpu5:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: sed Benchmark
+      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+
+        '
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Copy Network Param
+      run: cp benchmark/*.param build-android-29/benchmark/
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - sha: 41aa6014135fa39a7b8297dfed4054544b6535d0
+          time: '2021-08-23'
+name: android-armv8-gpu
+on:
+  watch:
+    types:
+    - started
+  workflow_dispatch:
 

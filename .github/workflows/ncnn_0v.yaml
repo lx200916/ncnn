@@ -1,4 +1,121 @@
 jobs:
+  android-aarch64-gpu0:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cancel-previous-runs
+      uses: styfle/cancel-workflow-action@0.9.0
+      with:
+        access_token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.sha }}
+        submodules: true
+    - name: sed Benchmark
+      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+
+        '
+    - name: build
+      run: 'mkdir build && cd build
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-shared
+      run: 'mkdir build-shared && cd build-shared
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
+        -DNCNN_ENABLE_LTO=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-termux
+      run: 'mkdir build-termux && cd build-termux
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
+        ..
+
+        cmake --build . -j 2
+
+        '
+    - name: build-android-29
+      run: 'mkdir build-android-29 && cd build-android-29
+
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
+
+        cmake --build . -j 2
+
+        '
+    - name: Copy Network Param
+      run: cp benchmark/*.param build-android-29/benchmark/
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ matrix.time }}
+        path: build-android-29/benchmark
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - sha: a335ae840fbf89796155435ba8499e722917d5a0
+          time: '2018-02-23'
+        - sha: 9c05e48e871b099bca26ceed454ec39018153b63
+          time: '2018-03-04'
+        - sha: 28154dcb29d01606de71c6ae3bbdee074020287a
+          time: '2018-03-11'
+        - sha: 6ea09ebf2c4cc05460a99dea53a6260f5843c19a
+          time: '2018-03-19'
+        - sha: d7e31987fadc54aa4244f7055d54402c99daabdf
+          time: '2018-03-26'
+        - sha: 3a5d7cfcce61e9ba40e4271442204a062900c16b
+          time: '2018-04-01'
+        - sha: 67732a83d8741f601c0cc932b732276c66231b84
+          time: '2018-04-09'
+        - sha: bc905288a7b01393222d14b0f657e458d951d195
+          time: '2018-04-16'
+        - sha: d0bcda70ca50bd8b7dcde0d3b478c3aa1d6edc04
+          time: '2018-04-21'
+        - sha: 356d018771b389b1efb6d810e1b8db5c803b6ad9
+          time: '2018-04-27'
+        - sha: 4905dc81d8b38bc67061597842c71343a5874191
+          time: '2018-05-04'
+        - sha: 643f2a671bab289b1d73ad1ab58278379f0ecd7d
+          time: '2018-05-14'
+        - sha: 307a77f04be29875f40d337cfff6df747df09de6
+          time: '2018-05-18'
+        - sha: 5dc35f28602e1af9e629458ef08c567d13c0fc1a
+          time: '2018-06-01'
+        - sha: dc2a689d10b7dba25db1491493f899fecead504c
+          time: '2018-06-08'
+        - sha: 72bb261e7a1815ef6c1eb0985497fefd66e899ae
+          time: '2018-06-16'
+        - sha: 511baa67188d0c56f74146aec994124789524815
+          time: '2018-06-25'
+        - sha: 0bbdbf4ff8b8816587846111279bd7976655253b
+          time: '2018-07-02'
+        - sha: 20c0794b365cc70e3540bba6ee94b5a5600ecb8d
+          time: '2018-07-09'
+        - sha: ae467fee25f46e375c091ca60f6364e62e98ea1d
+          time: '2018-07-15'
   android-aarch64-gpu1:
     runs-on: ubuntu-latest
     steps:
@@ -76,46 +193,46 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - sha: 0f7e7bca0223bfa3600c08c808d2ded0a1cb3b04
-          time: '2020-02-17'
-        - sha: 2606d2a2c99c37d2c46768aaacb11030d306907e
-          time: '2020-02-24'
-        - sha: 4c5bdd7036add8decf494aff2700ff8a80f3c710
-          time: '2020-03-01'
-        - sha: 5be84ef76db4d00b67571351289eefc02f443bc2
-          time: '2020-03-08'
-        - sha: 8a84077429298dd7a55e2f2e96ded4204e0e955a
-          time: '2020-03-15'
-        - sha: d023137426691594bc17710d15065edc0d88f137
-          time: '2020-03-20'
-        - sha: 8fecf1989e342edef09a388ec925f1dd868e114e
-          time: '2020-03-30'
-        - sha: 85d5e5d3e45cb41822d55b3ee7055214ea63e879
-          time: '2020-04-05'
-        - sha: 956ab49d02d95a1343ed587b0d1b10529d281a10
-          time: '2020-04-13'
-        - sha: e49a9ec7366eaac2a19c872bbd3a57b15fa35ec6
-          time: '2020-04-20'
-        - sha: b2d9325c0dec51aafeceb077ff2fadf2510afc19
-          time: '2020-04-23'
-        - sha: bd55ddcf0dac927b0a07ac0f6fa5ad1ad6562149
-          time: '2020-04-30'
-        - sha: 803a4477f7ad5c6e83e022c704fe48ed0c740af0
-          time: '2020-05-11'
-        - sha: 72ac36ea6052a713cf29e6ca3cf5ce63c15a5e30
-          time: '2020-05-18'
-        - sha: cbdaf4b3e1dd11937ea4e269c13821b7c546abb7
-          time: '2020-05-22'
-        - sha: 765003a615d2ae65d978beda602433b61946c536
-          time: '2020-06-01'
-        - sha: c61a60bfc67fcc5d8cdce20ad2ab65ba19f2b6c8
-          time: '2020-06-08'
-        - sha: fd7d87e098db181da544c17fad4ce1fd72f8f639
-          time: '2020-06-15'
-        - sha: 71db6e1da500d517834c143a6b27437dd6da64cd
-          time: '2020-06-22'
-        - sha: ebce2c3742258388a3a56d18520a9214b6592c4e
-          time: '2020-06-29'
+        - sha: b6b90c888f3b2378eeabbc3f8d6ce48f9f50ae18
+          time: '2018-07-17'
+        - sha: 6eb6abfd4a654cdce5f8fe48a36bb163912eb1af
+          time: '2018-07-29'
+        - sha: cebded134aacb501dfb9384c2e8340ed77ba4f6b
+          time: '2018-08-05'
+        - sha: 72411b7a6c742956984962d3a2054529042f9459
+          time: '2018-08-12'
+        - sha: f78e8fd8e4dbae99708cba2933fa6e8d578c32d9
+          time: '2018-08-16'
+        - sha: 23de61fd070307a770d45ead936f276fbea4bcdc
+          time: '2018-08-24'
+        - sha: ef36d79b7eaa114797d968f262e410197f6ac3da
+          time: '2018-08-30'
+        - sha: a862a3432d62585bf185ecdfccbb7167b0d09f0c
+          time: '2018-09-15'
+        - sha: 3489d02037506cfd00b5ac8d1ad6a53e890033ab
+          time: '2018-09-19'
+        - sha: 8eeea9ef01833af2128213b0b82bf510345271e6
+          time: '2018-09-30'
+        - sha: c171db255fb8895eb64664bd77886173b51de6b3
+          time: '2018-10-15'
+        - sha: 11113c7aaaeb8957f262c2e673bdca5f3696aa35
+          time: '2018-10-17'
+        - sha: 971fe2f639255d04762ee26cb395e3ef64426cf0
+          time: '2018-10-27'
+        - sha: 736ed5e8350281f703ed7b21b34068f988db58b5
+          time: '2018-11-03'
+        - sha: 8fda293f91c0782bb56073c4b649252fb6ea6d1c
+          time: '2018-11-08'
+        - sha: 4837af4c25013d04658e4ea94016e4acda126128
+          time: '2018-11-19'
+        - sha: 481722648cbfddde00d826cbaf9d1f877c61ca32
+          time: '2018-11-22'
+        - sha: ed2a24c47cba93343c53589cb1db339f6db9e659
+          time: '2018-11-29'
+        - sha: 4c5d9ae425f0b47e88ddadfda5d7464fa94d5309
+          time: '2018-12-10'
+        - sha: cc873b675cc07be3f9e702db033fddca06081c49
+          time: '2018-12-17'
   android-aarch64-gpu2:
     runs-on: ubuntu-latest
     steps:
@@ -193,46 +310,46 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - sha: 8d984f105b1b8f816654ffa7719e96fbd5885971
-          time: '2020-07-05'
-        - sha: dd97ad36c1b75b4a871656be64bba44e623476ec
-          time: '2020-07-11'
-        - sha: 11cffce1146125a7d0136dcfa22d74fbe3d30997
-          time: '2020-07-19'
-        - sha: bedf00a5edf85ae8af33bc72ebd85fe325da1271
-          time: '2020-07-27'
-        - sha: 54e79a62d7aa063faaa8fab60893f7ec051d95cc
-          time: '2020-08-02'
-        - sha: 785b49aa87e9fdc1fc07b4000530a039da91cae7
-          time: '2020-08-10'
-        - sha: 952faf6668cdaf955d79e78f22b680af0245912a
-          time: '2020-08-14'
-        - sha: 1cb55454ebb93e9a6e43f5ce6978ccf721bff2d7
-          time: '2020-08-23'
-        - sha: 9f5b6604833f1edc85e2bfa1619685864f9a2679
-          time: '2020-08-29'
-        - sha: 8ec73408aecbec6cc28bb52ad87bd7c60a11a690
-          time: '2020-09-07'
-        - sha: 2c8288555cbbcc718b45d6c2263f770c7ea9ae06
-          time: '2020-09-13'
-        - sha: 8d56a62d5f55bdc58af881fdb7fcc3fbc4bdbcfb
-          time: '2020-09-18'
-        - sha: 7b5b829143ac2696a242ebab3eaa9272b310e28b
-          time: '2020-09-24'
-        - sha: 972bb4b52c9b4fa6a5b937224e55fa4f904f8ed6
-          time: '2020-09-29'
-        - sha: 9be3f074a9f65c5420b2b0466c4aa9dc1d3d22f6
-          time: '2020-10-11'
-        - sha: a8f38f61706d8fad3d5ad75f7fcba7ba72a3bc64
-          time: '2020-10-16'
-        - sha: 799643f07b6d4657c35d4ab38eb5429c7be3511d
-          time: '2020-10-26'
-        - sha: a742979fea8885e067a8454b6fbb099e99f35c34
-          time: '2020-10-30'
-        - sha: b3bbc1b8e912316fbd93c631378b7b2fcff374d1
-          time: '2020-11-09'
-        - sha: b441f738bd23b2d0331f797775f2d8a7a3219f93
-          time: '2020-11-16'
+        - sha: aaa0765dede968ee62f314c32c9a9b25f0275473
+          time: '2018-12-22'
+        - sha: 099189384fe3f8f97bd6054ac862007229da8f9b
+          time: '2018-12-28'
+        - sha: ac7121f54b4a0ce128df6fcdba780470c77df81f
+          time: '2019-01-04'
+        - sha: d7bd415832064669573ba2c22b5fab47a11af529
+          time: '2019-01-09'
+        - sha: ddba274b9651e4ba7c3dc3457915def97299dc06
+          time: '2019-01-18'
+        - sha: 8e5674363b63e2e19b4b24035934721ca1acc35c
+          time: '2019-01-26'
+        - sha: 9d2b345eab407f508cf6b92949fe1be54662186d
+          time: '2019-02-04'
+        - sha: cd7f120250f2760a5cfe42362018f4b38d9ca721
+          time: '2019-02-05'
+        - sha: 39f2c71d5bc39bd483d539920bfb6254fb9c1c83
+          time: '2019-02-18'
+        - sha: 24f423b0c6791464d32a9b566754db6399c34da6
+          time: '2019-02-23'
+        - sha: 253bef2f7b23bd4fb5653d0e0f9babffca124a18
+          time: '2019-03-03'
+        - sha: dd83284ceee618796dc362bbf89409e06bb0b648
+          time: '2019-03-10'
+        - sha: d263cd507c79ef525662b1d0c372e599dfdf4d69
+          time: '2019-03-15'
+        - sha: f90a9898e2ea2ac35543c222e0d87cacbd556f0c
+          time: '2019-03-25'
+        - sha: 1554438515dc11d507dc38dfcf6b3b23abc12a85
+          time: '2019-03-29'
+        - sha: 9643916281dcd35cf2ffc2b7e44cf61fe6561d7b
+          time: '2019-04-07'
+        - sha: f92dcca3b36248933050ae1a7d54d6ed0c7c94b2
+          time: '2019-04-14'
+        - sha: 1dea9fe353d9a38b2a6e6a48a056a0f1ef45ed99
+          time: '2019-04-22'
+        - sha: 60e826181213487de78b32eac14ceacb088627b9
+          time: '2019-04-29'
+        - sha: d46c5989e1768caf59ad4b1ef2ba620573aa2685
+          time: '2019-05-03'
   android-aarch64-gpu3:
     runs-on: ubuntu-latest
     steps:
@@ -310,46 +427,46 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - sha: 1184404fbf78c55b27358cf3184906883ca2444f
-          time: '2020-11-22'
-        - sha: 14ba69803452b7626a473e668c699c034b5081b0
-          time: '2020-11-30'
-        - sha: 73319905989d63ee61f094b6e38d0a1beb4af4c1
-          time: '2020-12-06'
-        - sha: 5f539beea550636b6e3966fd3c909b2db0659faa
-          time: '2020-12-13'
-        - sha: a9df4f6c59be70b85e16a7aa3461ae9cbb8dbea4
-          time: '2020-12-21'
-        - sha: 25506cfba0f5a17d29809190b27878f1802bce74
-          time: '2020-12-26'
-        - sha: ce7ac39a96ab525a9a2177e01049e2e680c4e465
-          time: '2021-01-03'
-        - sha: fca04980f3a58e14cfb61cf398c932e84a2fc0fd
-          time: '2021-01-11'
-        - sha: af7d8184aa260a385328166a8e0c5c720fd1b9bb
-          time: '2021-01-17'
-        - sha: 73fb3b583f11caa6a3a58d2b941d8bc1f3b59a20
-          time: '2021-01-25'
-        - sha: 18980d717e3a35bf5f80ec3bd8662269632ed943
-          time: '2021-01-31'
-        - sha: ab56083ca543d4315bef9913b23b843e1fdd8c76
-          time: '2021-02-06'
-        - sha: 9fd4d371ae03a70a73162ecde624c7feb8c0a82b
-          time: '2021-02-10'
-        - sha: 41fba71fa0dfaa62a263cb96a3ae57f2f35650e8
-          time: '2021-02-22'
-        - sha: 57397c418d7198fa3507236d12dbe47b452aee35
-          time: '2021-03-01'
-        - sha: 2d31868389f7e8fb37cac73a072beefa8cfaeaa0
-          time: '2021-03-06'
-        - sha: f5b307689b4c98d28513d6e9fd8d78de20f0db96
-          time: '2021-03-13'
-        - sha: 5f00ba89d25a427e492fb4b23befa61c04220afe
-          time: '2021-03-22'
-        - sha: 8011aea8c8c2b2905bd5c9477681e566818f5c74
-          time: '2021-03-29'
-        - sha: cc8e7a13faa64e108d09eada1e58b0c6238d2e3c
-          time: '2021-04-02'
+        - sha: 07260527fc62af13d8f2f117fa6e95fb1837eb3d
+          time: '2019-05-12'
+        - sha: a6aab42f95041837f859bf9417fc734b62a30b24
+          time: '2019-05-15'
+        - sha: 25b9736f82b3c0662d3b5025692c7a1b844319b0
+          time: '2019-05-26'
+        - sha: 7f7bbf12e547897ac63f9f0e328c1c88edf2911f
+          time: '2019-06-03'
+        - sha: 21f79b854680011bfdf419faf1d106efab1fcc49
+          time: '2019-06-09'
+        - sha: ae1b69ec535bb920a25f93b7a353fb912ba13282
+          time: '2019-06-15'
+        - sha: b25f76833a3d1442044d5ef39e19e85fb7d472ba
+          time: '2019-06-24'
+        - sha: bcfe9f453f073a020a0b80d5e6c9d65493273187
+          time: '2019-06-26'
+        - sha: 5ce6ae90beaf308576ea59cb961608e9b4fc9b27
+          time: '2019-07-04'
+        - sha: fb9309e46021f3923e9d8a8be632795b710f256c
+          time: '2019-07-15'
+        - sha: ea9c11492238a16d7f46bcdd2627b8e884063209
+          time: '2019-07-21'
+        - sha: 77c1f361b7c90fc87ce2c54f78b186e26e78068b
+          time: '2019-07-26'
+        - sha: 163fb92537a09af9430109f5c6bf3d2a98619463
+          time: '2019-08-05'
+        - sha: 1cce18bddeb10e4425e76123ef3a8c772efb800b
+          time: '2019-08-09'
+        - sha: 1f6919fd40de3bf151e45554053a9b0cc07019ea
+          time: '2019-08-18'
+        - sha: 35990bb5d5358d06891b72b6774003cbd5c1a361
+          time: '2019-08-24'
+        - sha: 46e7ac76abad0b3d8649b97c37a4d0e0dc565f9a
+          time: '2019-09-01'
+        - sha: 91ef4eea4f9e0f90abf5630d4325031271d005ff
+          time: '2019-09-08'
+        - sha: 974411e358eba1c771e5af654dca31a2482a0f6a
+          time: '2019-09-16'
+        - sha: 50f69f1755400445a832b83c3d6d69a5d7175608
+          time: '2019-09-19'
   android-aarch64-gpu4:
     runs-on: ubuntu-latest
     steps:
@@ -427,125 +544,46 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - sha: bd994ddba3cd3dddc6ba8237c886d68cc4715159
-          time: '2021-04-12'
-        - sha: 478b8f072e18a3a5a94e03343fe15143d6127518
-          time: '2021-04-18'
-        - sha: f9e42d4ee4bac064494b05752bd10540786de3f6
-          time: '2021-04-26'
-        - sha: 37aeba236959d45b03333d0293cd99d31aa585f5
-          time: '2021-05-02'
-        - sha: da40cc6ec8174f230490b47f5c7e9b572892350f
-          time: '2021-05-09'
-        - sha: 5f62fdec8703e9340ac77bcb97d04e05c46c527e
-          time: '2021-05-16'
-        - sha: 26ea87cc25fed27791d8d89fd8c7ce82b7544486
-          time: '2021-05-24'
-        - sha: 71bc617a05f073d8b623dcc95e88eb5e1eb16aa5
-          time: '2021-05-29'
-        - sha: ccc597740f8095145cac611d0e6763923f25c006
-          time: '2021-06-03'
-        - sha: 08f285772e8729836197b44db741e9f61182d6d5
-          time: '2021-06-12'
-        - sha: c1ce8ea84d55b9e223025bb5e3b8a9d978f1205d
-          time: '2021-06-19'
-        - sha: 64092d0c7cd47aa384235677c86a048e513d095e
-          time: '2021-06-27'
-        - sha: 90b38ba1454af0ecc46f94aeef7d6886cf97bf7a
-          time: '2021-07-04'
-        - sha: 5049aaeabd3e36ad4131ad46da3ecd12c973eea6
-          time: '2021-07-11'
-        - sha: dba7348f1753b8e96cd8805aaaebaa2881adc11a
-          time: '2021-07-18'
-        - sha: 618f0f70ac273e0c9ad52d28ead4a5fa4f905909
-          time: '2021-07-26'
-        - sha: ba8e81453932ed946fcbad1f445b36b3f1bf47bd
-          time: '2021-08-02'
-        - sha: a6667ee6c48ca591fd33aa98134e8ecefba4fc19
-          time: '2021-08-06'
-        - sha: ec561736a5ca4f3853c2b48319efb2bb77b82889
-          time: '2021-08-12'
-        - sha: c44a6c7f47087222ffb0c9475fc49fdb66e6b62b
-          time: '2021-08-23'
-  android-aarch64-gpu5:
-    runs-on: ubuntu-latest
-    steps:
-    - name: cancel-previous-runs
-      uses: styfle/cancel-workflow-action@0.9.0
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ matrix.sha }}
-        submodules: true
-    - name: sed Benchmark
-      run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
-        benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
-
-        '
-    - name: build
-      run: 'mkdir build && cd build
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-shared
-      run: 'mkdir build-shared && cd build-shared
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
-        -DNCNN_ENABLE_LTO=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-termux
-      run: 'mkdir build-termux && cd build-termux
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
-        ..
-
-        cmake --build . -j 2
-
-        '
-    - name: build-android-29
-      run: 'mkdir build-android-29 && cd build-android-29
-
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
-
-        cmake --build . -j 2
-
-        '
-    - name: Copy Network Param
-      run: cp benchmark/*.param build-android-29/benchmark/
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ matrix.time }}
-        path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - sha: 41aa6014135fa39a7b8297dfed4054544b6535d0
-          time: '2021-08-23'
+        - sha: 22a3ade6ce402ea47ef40931d1c74116c6bd8f95
+          time: '2019-09-29'
+        - sha: afd1f08194d2a607fd264644961bac26848e0f94
+          time: '2019-10-06'
+        - sha: 7173b6e38e81ed35248480a616617e074fbaf2b6
+          time: '2019-10-14'
+        - sha: e63e2449fd7ad5706d9a8163c500db311b6dc2a1
+          time: '2019-10-21'
+        - sha: b2758bd9a06f820ad574917d8b5051e187910240
+          time: '2019-10-28'
+        - sha: e73b06bbb81d487e79b849e9dbbffaeda9aaba71
+          time: '2019-11-04'
+        - sha: a170ef1acffb488612f5474dda23a8b04a96120d
+          time: '2019-11-08'
+        - sha: d8b0f28dda0aa7fb56103552592040bc60db5b79
+          time: '2019-11-15'
+        - sha: 742cc8c571fcfec937c8f49f87e8faa899abfd4f
+          time: '2019-11-23'
+        - sha: 7e68c5e1e96fbb8f5c36640bdf49fd0a6050039e
+          time: '2019-11-30'
+        - sha: b3ecf16169976ff62ce730377f8cde584d5a4c9a
+          time: '2019-12-08'
+        - sha: a477aee0ba9dfb170ebe985affe9151e2656d8df
+          time: '2019-12-16'
+        - sha: a50bcf10aa6b1e367222021534251d0e0acf607a
+          time: '2019-12-20'
+        - sha: 07170542c97b6ef616a53ce945eef3fada92d560
+          time: '2019-12-27'
+        - sha: 6f2ef1932d717c45396f13a182dc347db74e9d1e
+          time: '2020-01-04'
+        - sha: 591b13ed05e80fd4fbff46f38a0c14732586563f
+          time: '2020-01-13'
+        - sha: 4a1ff55d9e391d6eb479ed1958f22240169a7017
+          time: '2020-01-20'
+        - sha: 2b624686e6035fdd185563d41cb123fbd9174c7e
+          time: '2020-01-26'
+        - sha: e2bd4eae6e1a0aeecd3c76be92f9cd0785401efc
+          time: '2020-01-31'
+        - sha: 01853010eae3fbd367a51eeed0f5540958cb8fe7
+          time: '2020-02-07'
 name: android-armv8-gpu
 on:
   watch:

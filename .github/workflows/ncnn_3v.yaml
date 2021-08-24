@@ -13,18 +13,18 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
@@ -130,18 +130,18 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
@@ -247,18 +247,18 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
@@ -364,18 +364,18 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
@@ -481,18 +481,18 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
@@ -547,9 +547,9 @@ jobs:
         - sha: 41aa6014135fa39a7b8297dfed4054544b6535d0
           time: '2021-08-23'
 name: android-armv8-gpu
-on:
+'on':
   watch:
     types:
     - started
-  workflow_dispatch:
+  workflow_dispatch: null
 

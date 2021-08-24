@@ -233,7 +233,8 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: ' sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?''
+      run: '
+      sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?''
         benchmark/benchncnn.cpp
 
         sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp

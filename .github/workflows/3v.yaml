@@ -13,25 +13,25 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -40,7 +40,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -50,7 +50,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -60,7 +60,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -130,25 +130,25 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -157,7 +157,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -167,7 +167,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -177,7 +177,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -247,25 +247,25 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -274,7 +274,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -284,7 +284,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -294,7 +294,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -364,25 +364,25 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -391,7 +391,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -401,7 +401,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -411,7 +411,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -481,25 +481,25 @@ jobs:
     - name: sed Benchmark
       run: ' sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("googlenet"?    benchmark("googlenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("shufflenet"?    benchmark("shufflenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-
-        sed -i -e ''s?//    benchmark("mobilenet_v2"?    benchmark("mobilenet_v2"?''
+        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?''
         benchmark/benchncnn.cpp
 
-        sed -i -e ''s?//    benchmark("resnet18"?    benchmark("mobilenet_v2"?'' benchmark/benchncnn.cpp
+        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("resnet18_int8"?    benchmark("resnet18_int8"?''
+        benchmark/benchncnn.cpp
+
+        sed -i -e ''s?//    benchmark("googlenet_int8"?    benchmark("googlenet_int8"?''
+        benchmark/benchncnn.cpp
+
 
         '
     - name: build
       run: 'mkdir build && cd build
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -508,7 +508,7 @@ jobs:
       run: 'mkdir build-shared && cd build-shared
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_SHARED_LIB=ON
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_SHARED_LIB=ON
         -DNCNN_ENABLE_LTO=ON ..
 
         cmake --build . -j 2
@@ -518,7 +518,7 @@ jobs:
       run: 'mkdir build-termux && cd build-termux
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=OFF -DNCNN_PLATFORM_API=OFF
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-24 -DNCNN_VULKAN=ON -DNCNN_PLATFORM_API=OFF
         ..
 
         cmake --build . -j 2
@@ -528,7 +528,7 @@ jobs:
       run: 'mkdir build-android-29 && cd build-android-29
 
         cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=OFF ..
+        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=ON ..
 
         cmake --build . -j 2
 
@@ -584,8 +584,8 @@ jobs:
           time: '2020-01-31'
         - sha: 01853010eae3fbd367a51eeed0f5540958cb8fe7
           time: '2020-02-07'
-name: android-armv8-gpu
-on:
+name: android-armv8-gpu_int8_1v
+'on':
   watch:
     types:
     - started
