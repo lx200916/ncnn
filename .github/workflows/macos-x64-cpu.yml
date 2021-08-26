@@ -1,5 +1,6 @@
 name: macos-x64-cpu
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths:
@@ -82,3 +83,8 @@ jobs:
             -DOpenMP_libomp_LIBRARY="$DEVELOPER_DIR/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libomp.a" \
             -DNCNN_SHARED_LIB=ON -DNCNN_ENABLE_LTO=ON ..
         cmake --build . -j 2
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+          name: tools
+          path: build-shared/tools
