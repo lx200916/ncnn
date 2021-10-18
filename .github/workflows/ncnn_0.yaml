@@ -11,8 +11,7 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-    - run: '
-        sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
+      run: ' sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
 
     '
     - name: sed Benchmark
@@ -111,8 +110,7 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-    - run: '
-        sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
+      run: ' sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
 
     '
     - name: sed Benchmark
@@ -212,8 +210,7 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-    - run: '
-        sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
+      run: ' sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
 
     '
     - name: sed Benchmark
@@ -283,3 +280,4 @@ on:
     types:
     - started
   workflow_dispatch:
+
