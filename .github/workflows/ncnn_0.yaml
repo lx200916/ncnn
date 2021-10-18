@@ -11,16 +11,19 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: '
-        sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
+      run: ' sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
 
     '
     - name: sed Benchmark
       run: ' 
         sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
         '
     - name: build
@@ -119,9 +122,13 @@ jobs:
     - name: sed Benchmark
       run: ' 
         sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
         
         '
@@ -221,9 +228,13 @@ jobs:
     - name: sed Benchmark
       run: ' 
       sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
+      
         sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?'' benchmark/benchncnn.cpp
+        
         sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
         
         '
