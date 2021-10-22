@@ -11,18 +11,18 @@ jobs:
         ref: ${{ matrix.sha }}
         submodules: true
     - name: sed Benchmark
-      run: 'sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt'
+      run: '        sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
+    '
     - name: sed Benchmark
-      run: '  
+      run: '
         sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
-        
+
         sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
         
         sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?'' benchmark/benchncnn.cpp
-        
-        
+
         sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?'' benchmark/benchncnn.cpp
-        
+
         sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
 
         '
@@ -52,58 +52,7 @@ jobs:
           time: '2018-11-02'
         - sha: 971fe2f639255d04762ee26cb395e3ef64426cf0
           time: '2018-10-27'
-  android-aarch64-gpu1:
-    runs-on: ubuntu-latest
-    steps:
-      - name: cancel-previous-runs
-        uses: styfle/cancel-workflow-action@0.9.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ matrix.sha }}
-          submodules: true
-      - name: sed Benchmark
-        run: '        sed -i -e ''s?# add_subdirectory(benchmark)?add_subdirectory(benchmark)?'' CMakeLists.txt
-    '
-      - name: sed Benchmark
-        run: '
-         sed -i -e ''s?    benchmark(?//    benchmark(?'' benchmark/benchncnn.cpp
-         
-        sed -i -e ''s?//    benchmark("mobilenet"?    benchmark("mobilenet"?'' benchmark/benchncnn.cpp
-        
-        sed -i -e ''s?//    benchmark("mobilenet_int8"?    benchmark("mobilenet_int8"?'' benchmark/benchncnn.cpp
-        
-        sed -i -e ''s?//    benchmark("squeezenet_int8"?    benchmark("squeezenet_int8"?'' benchmark/benchncnn.cpp
-        
-        sed -i -e ''s?//    benchmark("squeezenet"?    benchmark("squeezenet"?'' benchmark/benchncnn.cpp
-        '
-      - name: build-android-29
-        run: 'mkdir build-android-29 && cd build-android-29
 
-        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk-bundle/build/cmake/android.toolchain.cmake
-        -DANDROID_ABI="arm64-v8a" -DANDROID_PLATFORM=android-29 -DNCNN_VULKAN=OFF ..
-
-        cmake --build . -j 2
-
-        '
-      - name: Copy Network Param
-        run: cp benchmark/*.param build-android-29/benchmark/
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: ${{ matrix.sha }}
-          path: build-android-29/benchmark
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - sha: 736ed5e8350281f703ed7b21b34068f988db58b5
-            time: '2018-11-03'
-          - sha: 4ec1c1781facaf36fd9833d6a0bff60354b76047
-            time: '2018-11-02'
-          - sha: 971fe2f639255d04762ee26cb395e3ef64426cf0
-            time: '2018-10-27'
 name: android-armv8-gpu
 'on':
   watch:
